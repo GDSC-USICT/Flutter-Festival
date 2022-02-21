@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterfestival/constants.dart';
 import 'package:flutterfestival/screens/home_screen.dart';
+import 'package:flutterfestival/screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       initialRoute: homeScreen,
       routes: {
         homeScreen: (_) => HomeScreen(),
+        profileScreen: (_) => ProfileScreen(),
       },
     );
   }
