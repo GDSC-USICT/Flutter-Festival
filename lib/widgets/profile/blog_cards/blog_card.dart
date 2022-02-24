@@ -24,7 +24,9 @@ class BlogCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(
         vertical: mediaQuery.size.height * 0.008,
       ),
-      height: mediaQuery.size.height * 0.15,
+      height: mediaQuery.orientation == Orientation.landscape
+          ? mediaQuery.size.height * 0.3
+          : mediaQuery.size.height * 0.15,
       decoration: BoxDecoration(
         color: boxColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
