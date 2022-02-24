@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: "Flutter Festival",
       debugShowCheckedModeBanner: false,
       initialRoute: homeScreen,
+      theme: ThemeData(fontFamily: "Poppins"),
       routes: {
         homeScreen: (_) => HomeScreen(),
         profileScreen: (_) => ProfileScreen(),
