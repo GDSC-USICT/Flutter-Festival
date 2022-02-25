@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BlogCard extends StatelessWidget {
+class BlogCard extends StatefulWidget {
   final Color boxColor;
   final String title;
   final bool status;
@@ -14,6 +14,13 @@ class BlogCard extends StatelessWidget {
   });
 
   @override
+  State<BlogCard> createState() => _BlogCardState();
+}
+
+class _BlogCardState extends State<BlogCard> {
+  bool expanded = false;
+
+  @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Container(
@@ -25,10 +32,14 @@ class BlogCard extends StatelessWidget {
         vertical: mediaQuery.size.height * 0.008,
       ),
       height: mediaQuery.orientation == Orientation.landscape
-          ? mediaQuery.size.height * 0.3
-          : mediaQuery.size.height * 0.15,
+          ? expanded
+              ? mediaQuery.size.height * 0.6
+              : mediaQuery.size.height * 0.3
+          : expanded
+              ? mediaQuery.size.height * 0.3
+              : mediaQuery.size.height * 0.15,
       decoration: BoxDecoration(
-        color: boxColor.withOpacity(0.2),
+        color: widget.boxColor.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
@@ -39,17 +50,18 @@ class BlogCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                title,
+                widget.title,
                 style: TextStyle(
-                  color: boxColor,
+                  color: widget.boxColor,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              expanded ? Text("Inhale\nexhale") : Container(),
               Row(
                 children: [
                   Text(
-                    status ? "Completed" : "Complete Card",
+                    widget.status ? "Completed" : "Complete Card",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
@@ -61,12 +73,23 @@ class BlogCard extends StatelessWidget {
                   CircleAvatar(
                     radius: 15,
                     backgroundColor: Colors.white,
-                    child: Icon(
-                      status
-                          ? Icons.done
-                          : Icons.arrow_drop_down_circle_outlined,
-                      size: 20,
-                      color: status ? Colors.green : Colors.red,
+                    child: GestureDetector(
+                      onTap: widget.status
+                          ? null
+                          : () {
+                              setState(() {
+                                expanded = !expanded;
+                              });
+                            },
+                      child: Icon(
+                        widget.status
+                            ? Icons.done
+                            : expanded
+                                ? Icons.arrow_circle_up_rounded
+                                : Icons.arrow_drop_down_circle_outlined,
+                        size: 20,
+                        color: widget.status ? Colors.green : Colors.red,
+                      ),
                     ),
                   ),
                 ],
@@ -74,12 +97,14 @@ class BlogCard extends StatelessWidget {
             ],
           ),
           Container(
-            height: mediaQuery.size.height * 0.3,
+            height: expanded
+                ? mediaQuery.size.height * 0.15
+                : mediaQuery.size.height * 0.3,
             width: mediaQuery.size.width * 0.2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
-                img,
+                widget.img,
                 fit: BoxFit.cover,
               ),
             ),
